@@ -1,3 +1,8 @@
+<?php
+    require('config.php'); 
+    $db->orderBy("id","desc");
+    $transactions = $db->get('Transactions');
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -63,7 +68,7 @@
                         <li>
                             <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
-                    </ul>
+                    </ul> 
                 </li>
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -76,7 +81,7 @@
                         <a href="gestion_ventes.html"><i class="fa fa-fw fa-bar-chart-o"></i> Gestion des ventes</a>
                     </li>
                     <li class="active">
-                        <a href="transactions.html"><i class="fa fa-fw fa-table"></i> Transactions</a>
+                        <a href="transactions.php"><i class="fa fa-fw fa-table"></i> Transactions</a>
                     </li>
                 </ul>
             </div>
@@ -124,30 +129,48 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Amine Bounif</td>
-                                        <td>Yahya Arba</td>
-                                        <td>10 €</td>
-                                        <td>2010-04-02 15:28:22</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Amine Bounif</td>
-                                        <td>Arba</td>
-                                        <td>80 €</td>
-                                        <td>2010-04-02 15:28:22</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Amine Bounif</td>
-                                        <td>El fatwaqi</td>
-                                        <td>92 €</td>
-                                        <td>2010-04-02 15:28:22</td>
-                                    </tr>
+                                <?php
+                                    include('paginator.class.php');
+                                    try {
+                                        foreach ($transactions as $row) {
+                                            
+                                            $db->where('id', $row['idUser']);
+                                            $usersUtil = $db->get('Users');
+
+                                            foreach($usersUtil as $user) {   
+                                                $utilisateurNom = $user['nom'];
+                                                $utilisateurPrenom = $user['prenom'];
+                                            }    
+
+                                            $db->where('id', $row['idBeneficiaire']);
+                                            $usersBenef = $db->get('Users');
+
+                                            foreach($usersBenef as $us) {   
+                                                $BeneficiaireNom = $us['nom'];
+                                                $BeneficiairePrenom = $us['prenom'];
+                                            }   
+
+                                                echo "<tr>";
+                                                echo '<td>'.$utilisateurNom.' '.$utilisateurPrenom.'</td>';
+                                                echo '<td>'.$BeneficiaireNom.' '.$BeneficiairePrenom.'</td>';
+                                                echo '<td>'.$row['montant'].'</td>';
+                                                echo '<td>'.$row['date'].'</td>';
+                                                echo "</tr>";
+                                            }
+
+                                        } catch(PDOException $e) {
+                                            echo 'ERROR: ' . $e->getMessage();
+                                        }
+                                ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
+            <?php 
+                //echo '<center><span class=\"\">'.$pages->display_jump_menu().$pages->display_items_per_page().'</span></center>';
+            ?>
             <!-- /.container-fluid -->
 
         </div>
