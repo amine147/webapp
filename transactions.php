@@ -78,7 +78,7 @@
                         <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="gestion_ventes.html"><i class="fa fa-fw fa-bar-chart-o"></i> Gestion des ventes</a>
+                        <a href="gestion_ventes.php"><i class="fa fa-fw fa-bar-chart-o"></i> Gestion des ventes</a>
                     </li>
                     <li class="active">
                         <a href="transactions.php"><i class="fa fa-fw fa-table"></i> Transactions</a>
@@ -153,7 +153,7 @@
                                                 echo "<tr>";
                                                 echo '<td>'.$utilisateurNom.' '.$utilisateurPrenom.'</td>';
                                                 echo '<td>'.$BeneficiaireNom.' '.$BeneficiairePrenom.'</td>';
-                                                echo '<td>'.$row['montant'].'</td>';
+                                                echo '<td>'.$row['montant'].' € </td>';
                                                 echo '<td>'.$row['date'].'</td>';
                                                 echo "</tr>";
                                             }

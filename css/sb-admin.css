@@ -256,5 +256,10 @@ ul.alert-dropdown {
 
 /**** End of Transactions table jQuery ****/
 
+/**** Progress bars ****/
 
+.progress{
+    margin-bottom: 0px;
+}
 
+/**** End of Progress bars ****/
