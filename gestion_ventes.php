@@ -1,7 +1,9 @@
 <?php
     require('config.php'); 
     $db->orderBy("id","desc");
+    $db->where('categorieId', $_GET['cat']);
     $produits = $db->get('Produits');
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -51,7 +53,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Cafette app Admin</a>
+                <a class="navbar-brand" href="index.php">Cafette app Admin</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -78,10 +80,25 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li class="active">
-                        <a href="gestion_ventes.php"><i class="fa fa-fw fa-bar-chart-o"></i> Gestion des ventes</a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-bar-chart-o"></i> Gestion des ventes <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse">
+                            <?php
+                                $categories = $db->get('Categories');
+                                foreach($categories as $cat) {   
+                            ?>
+                            <li>
+                                <?php echo '<a href="gestion_ventes.php?cat='.$cat['id'].'">'; ?>
+                                    <?php echo $cat['nom']; ?>
+                                </a>
+                            </li>
+                            <?php
+                            }
+                            ?>
+
+                        </ul>
                     </li>
                     <li>
                         <a href="transactions.php"><i class="fa fa-fw fa-table"></i> Transactions</a>
@@ -113,18 +130,18 @@
 
                         
                         <div class="progress">
-                            <div class="progress-bar progress-bar-info" style="width: 25%"><span class="sr-only">35% Complete (success)</span>
+                            <div class="progress-bar progress-bar-danger" style="width: 25%"><span class="sr-only">35% Complete (success)</span>
                             </div>
-                            <div class="progress-bar progress-bar-success" style="width: 25%"><span class="sr-only">35% Complete (success)</span>
+                            <div class="progress-bar progress-bar-warning" style="width: 25%"><span class="sr-only">35% Complete (success)</span>
                             </div>
-                            <div class="progress-bar progress-bar-warning" style="width: 25%"><span class="sr-only">20% Complete (warning)</span>
+                            <div class="progress-bar progress-bar-success" style="width: 25%"><span class="sr-only">20% Complete (warning)</span>
                             </div>
-                            <div class="progress-bar progress-bar-danger" style="width: 25%"><span class='sr-only'>10% Complete (danger)</span>
+                            <div class="progress-bar progress-bar-info" style="width: 25%"><span class='sr-only'>10% Complete (danger)</span>
                             </div>
                         </div>
 
                         <!-- END OF PROGRESS BARS -->
-                    
+
                         <!-- Table of products -->
 
                         <div class="col-lg-12">                         
@@ -162,7 +179,7 @@
                                                             echo '
                                                             <td>
                                                             <div class="progress">
-                                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '.$rate.'%;"><span class="sr-only">60% Complete</span>
+                                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '.$rate.'%;"><span class="sr-only">60% Complete</span>
                                                                 </div>
                                                             </div>
                                                             <td/>
@@ -173,7 +190,7 @@
                                                             echo '
                                                             <td>
                                                             <div class="progress">
-                                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '.$rate.'%;"><span class="sr-only">60% Complete</span>
+                                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '.$rate.'%;"><span class="sr-only">60% Complete</span>
                                                                 </div>
                                                             </div>
                                                             <td/>
@@ -184,7 +201,7 @@
                                                             echo '
                                                             <td>
                                                             <div class="progress">
-                                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '.$rate.'%;"><span class="sr-only">60% Complete</span>
+                                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '.$rate.'%;"><span class="sr-only">60% Complete</span>
                                                                 </div>
                                                             </div>
                                                             <td/>
@@ -195,7 +212,7 @@
                                                             echo '
                                                             <td>
                                                             <div class="progress">
-                                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '.$rate.'%;"><span class="sr-only">60% Complete</span>
+                                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '.$rate.'%;"><span class="sr-only">60% Complete</span>
                                                                 </div>
                                                             </div>
                                                             <td/>
