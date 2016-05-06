@@ -4,11 +4,11 @@
 	$dbhost ="localhost";
 	$user="root";
 	$database="cafetteApp";
-	$password="";
+	$password="root";
 		$db = new Mysqlidb(
-		$dbhost, 
+		$dbhost,
 		$user, 
-		$password, 
+		$password,
 		$database
 	);
 ?>

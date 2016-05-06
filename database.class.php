@@ -2,7 +2,7 @@
 /**
  * MysqliDb Class
  * https://github.com/ajillion/PHP-MySQLi-Database-Class
- * 
+ *
  * @category  Database Access
  * @package   MysqliDb
  * @author    Jeffery Way <jeffrey@jeffrey-way.com>
@@ -36,7 +36,7 @@ class MysqliDb
      *
      * @var array
      */
-    protected $_join = array(); 
+    protected $_join = array();
     /**
      * An array that holds where conditions 'fieldname' => 'value'
      *
@@ -52,11 +52,11 @@ class MysqliDb
     /**
      * Dynamic type list for order by condition value
      */
-    protected $_orderBy = array(); 
+    protected $_orderBy = array();
     /**
      * Dynamic type list for group by condition value
      */
-    protected $_groupBy = array(); 
+    protected $_groupBy = array();
     /**
      * Dynamic type list for table data values
      *
@@ -74,7 +74,7 @@ class MysqliDb
         * @return (int)
         */
    public $num_rows = NULL;
-   
+
     /**
      * @param string $host
      * @param string $username
@@ -86,7 +86,7 @@ class MysqliDb
     {
         if($port == NULL)
             $port = ini_get('mysqli.default_port');
-        
+
         $this->_mysqli = new mysqli($host, $username, $password, $db, $port)
             or die('There was a problem connecting to the database');
 
@@ -119,14 +119,14 @@ class MysqliDb
         $this->_where = array();
         $this->_join = array();
         $this->_orderBy = array();
-        $this->groupBy = array(); 
+        $this->groupBy = array();
         $this->_bindParams = array(''); // Create the empty 0 index
         $this->_query = null;
         $this->_whereTypeList = null;
         $this->_paramTypeList = null;
     }
 
-   
+
    /**
       * Pre Reset states 'Before' an execution
       *
@@ -135,9 +135,9 @@ class MysqliDb
     protected function pre_reset()
     {
         $this->num_rows = NULL;
-    } 
-   
-   
+    }
+
+
     /**
      * Pass in a raw query and an array containing the parameters to bind to the prepaird statement.
      *
@@ -204,7 +204,7 @@ class MysqliDb
         if (empty ($columns))
             $columns = '*';
 
-        $column = is_array($columns) ? implode(', ', $columns) : $columns; 
+        $column = is_array($columns) ? implode(', ', $columns) : $columns;
         $this->_query = "SELECT $column FROM $tableName";
         $stmt = $this->_buildQuery($numRows);
         $stmt->execute();
@@ -220,7 +220,7 @@ class MysqliDb
      *
      * @return array Contains the returned rows from the select query.
      */
-     public function getOne($tableName, $columns = '*') 
+     public function getOne($tableName, $columns = '*')
      {
          $res = $this->get ($tableName, 1, $columns);
          if(isset($res[0]))
@@ -239,7 +239,7 @@ class MysqliDb
     public function insert($tableName, $insertData)
     {
         $this->pre_reset();
-        
+
         $this->_query = "INSERT into $tableName";
         $stmt = $this->_buildQuery(null, $insertData);
         $stmt->execute();
@@ -351,7 +351,7 @@ class MysqliDb
 
         $this->_orderBy[$orderByField] = $orderbyDirection;
         return $this;
-    } 
+    }
 
     /**
      * This method allows you to specify multiple (method chaining optional) GROUP BY statements for SQL queries.
@@ -368,7 +368,7 @@ class MysqliDb
 
         $this->_groupBy[] = $groupByField;
         return $this;
-    } 
+    }
 
     /**
      * This methods returns the ID of the last inserted item
@@ -421,7 +421,7 @@ class MysqliDb
             case 'string':
                         default:
                 return 's';
-                break;        
+                break;
         }
     }
 
@@ -440,11 +440,11 @@ class MysqliDb
         $hasTableData = is_array($tableData);
         $hasConditional = !empty($this->_where);
 
-        // Did the user call the "join" method? 
+        // Did the user call the "join" method?
         if (!empty($this->_join)) {
             foreach ($this->_join as $prop => $value) {
                 $this->_query .= " " . $prop . " on " . $value;
-            } 
+            }
         }
 
         // Did the user call the "where" method?
@@ -521,7 +521,7 @@ class MysqliDb
                 $this->_query .= $prop . " " . $value . ", ";
             }
             $this->_query = rtrim ($this->_query, ', ') . " ";
-        } 
+        }
 
         // Determine if is INSERT query
         if ($hasTableData) {
@@ -614,7 +614,7 @@ class MysqliDb
 
         // if $meta is false yet sqlstate is true, there's no sql error but the query is
         // most likely an update/insert/delete which doesn't produce any results
-        if(!$meta && $stmt->sqlstate) { 
+        if(!$meta && $stmt->sqlstate) {
             return array();
         }
 
@@ -679,7 +679,7 @@ class MysqliDb
 
     /**
      * Method returns mysql error
-     * 
+     *
      * @return string
      */
     public function getLastError () {

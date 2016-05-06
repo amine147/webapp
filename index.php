@@ -1,5 +1,6 @@
 <?php
-    require('config.php'); 
+    session_start();
+    require('config.php');
     $categories = $db->get('Categories');
 ?>
 <!DOCTYPE html>
@@ -55,7 +56,7 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $_SESSION['name']; ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -80,11 +81,14 @@
                         <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
+                        <a href="Ges_users.php"><i class="fa fa-fw fa-users"></i> Gestion des utilisateurs </a>
+                    </li>
+                    <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-bar-chart-o"></i> Gestion des ventes <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <?php
                                 $categories = $db->get('Categories');
-                                foreach($categories as $cat) {   
+                                foreach($categories as $cat) {
                             ?>
                             <li>
                                 <?php echo '<a href="gestion_ventes.php?cat='.$cat['id'].'">'; ?>
@@ -124,7 +128,7 @@
                 </div>
                 <!-- /.row -->
 
-               
+
             </div>
             <!-- /.container-fluid -->
 

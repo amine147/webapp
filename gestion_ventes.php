@@ -1,5 +1,5 @@
 <?php
-    require('config.php'); 
+    require('config.php');
     $db->orderBy("id","desc");
     $db->where('categorieId', $_GET['cat']);
     $produits = $db->get('Produits');
@@ -82,12 +82,15 @@
                     <li>
                         <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
+                    <li>
+                        <a href="Ges_users.php"><i class="fa fa-fw fa-users"></i> Gestion des utilisateurs</a>
+                    </li>
                     <li class="active">
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-bar-chart-o"></i> Gestion des ventes <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <?php
                                 $categories = $db->get('Categories');
-                                foreach($categories as $cat) {   
+                                foreach($categories as $cat) {
                             ?>
                             <li>
                                 <?php echo '<a href="gestion_ventes.php?cat='.$cat['id'].'">'; ?>
@@ -128,7 +131,7 @@
                         </ol>
                         <!-- PROGRESS BARS -->
 
-                        
+
                         <div class="progress">
                             <div class="progress-bar progress-bar-danger" style="width: 25%"><span class="sr-only">35% Complete (success)</span>
                             </div>
@@ -144,7 +147,7 @@
 
                         <!-- Table of products -->
 
-                        <div class="col-lg-12">                         
+                        <div class="col-lg-12">
                             <div class="row">
                                 <div class="panel panel-primary filterable">
                                     <div class="panel-heading">
