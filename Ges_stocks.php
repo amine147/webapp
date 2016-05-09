@@ -1,9 +1,28 @@
 <?php
+    session_start();
     require('config.php');
-    $db->orderBy("id","desc");
-    $transactions = $db->get('Transactions');
+    $produits = $db->get('Produits');
 
-    $categories = $db->get('Categories');
+      if(isset($_GET['action'])){
+        switch ($_GET['action']) {
+          case 1:
+          $dt = Array('stock'=> $_GET['regul']+$_GET['base']);
+          $db->where ('id', $_GET['id']);
+          $db->update('Produits',$dt);
+          header("location: ./Ges_stocks.php");
+            break;
+          case 'search':
+        //  $db->where ("nom","%ki%","LIKE");
+          $produits = $db->get('Produits');
+              break;
+          default:
+          $produits = $db->get('Produits');
+          header("location:./Ges_stocks.php");
+            break;
+        }
+      }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -16,7 +35,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Cafette App - Transactions</title>
+    <title>Cafette app - Administration</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -24,9 +43,14 @@
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
 
+    <!-- Morris Charts CSS -->
+    <link href="css/plugins/morris.css" rel="stylesheet">
+
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <style>
 
+    </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -50,12 +74,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">Cafette app Admin</a>
+                <a class="navbar-brand" href="dash.php">Cafette app Admin</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $_SESSION['name']; ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -80,9 +104,8 @@
                         <a href="dash.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="Ges_users.php"><i class="fa fa-fw fa-users"></i> Gestion des utilisateurs</a>
+                        <a href="Ges_users.php"><i class="fa fa-fw fa-users"></i> Gestion des utilisateurs </a>
                     </li>
-
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-bar-chart-o"></i> Gestion des ventes <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
@@ -101,10 +124,10 @@
 
                         </ul>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="transactions.php"><i class="fa fa-fw fa-table"></i> Transactions</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="Ges_stocks.php"><i class="fa fa-fw fa-table"></i> Gestion des stocks </a>
                     </li>
                 </ul>
@@ -120,65 +143,108 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Transactions
+                            Le stock du BDE
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="dash.php">Dashboard</a>
+                                <i class="fa fa-dashboard"></i> <a href="dash.php">Dashboard</a>
                             </li>
-                            <li class="active">
-                                <i class="fa fa-table"></i> Transactions
+                            <li>
+                                <i class="fa fa-users"></i>  Gestion des stocks
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
-
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="panel panel-primary filterable">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Historique</h3>
-                                <div class="pull-right">
-                                    <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filtrer</button>
-                                </div>
-                            </div>
+                          <div class="panel-heading">
+                              <h3 class="panel-title">Le stock du BDE</h3>
+                              <div class="pull-right">
+                                  <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filtrer</button>
+                              </div>
+                          </div>
                             <table class="table">
                                 <thead>
-                                    <tr class="filters">
-                                        <th><input type="text" class="form-control" placeholder="Utilisateur" disabled></th>
-                                        <th><input type="text" class="form-control" placeholder="Bénéficiaire" disabled></th>
-                                        <th><input type="text" class="form-control" placeholder="Montant" disabled></th>
-                                        <th><input type="text" class="form-control" placeholder="Date" disabled></th>
-                                    </tr>
+                                      <tr class="filters">
+                                          <th><input type="text" class="form-control" placeholder="Nom du produit" disabled></th>
+                                          <th><input type="text" class="form-control" placeholder="Quantité" disabled></th>
+                                          <th></th>
+                                      </tr>
                                 </thead>
                                 <tbody>
                                 <?php
                                     include('paginator.class.php');
                                     try {
-                                        foreach ($transactions as $row) {
+                                        foreach ($produits as $row) {
 
-                                            $db->where('id', $row['idUser']);
-                                            $usersUtil = $db->get('Users');
+                                            //$db->where('id', $row['idUser']);
 
-                                            foreach($usersUtil as $user) {
-                                                $utilisateurNom = $user['nom'];
-                                                $utilisateurPrenom = $user['prenom'];
-                                            }
+                                                $nomProduit =$row['nom'];
+                                                $quantite = $row['stock'];
+                                                if($quantite<=100){
+                                                  if($quantite<=50){
+                                                   echo '<td class=" danger col-md-4">'.$nomProduit.'</td>';
+                                                   echo '<td class="danger col-md-4">'.$quantite.'</td>';
+                                                   echo '<td class="danger col-md-4">  <form action="Ges_stocks.php">
+                                                   <div >
+                                                   <form action="Ges_stocks.php">
+                                                     <div class="input-group">
+                                                       <span class="input-group-btn">
+                                                         <button class="btn btn-danger">MaJ stock</button></a>
+                                                       </span>
+                                                       <input type="text" name="regul" class="form-control" placeholder="Ajouter ...">
+                                                       <input type="hidden" name="id" value="'.$row['id'].'"/>
+                                                       <input type="hidden" name="action" value="1"/>
+                                                       <input type="hidden" name="base" value="'.$row['stock'].'"/>
+                                                             </form>
+                                                     </div><!-- /input-group -->
+                                                   </div><!-- /.col-lg-6 -->
+                                                 </td>';
+                                                   }
+                                                   else{
+                                                echo '<td class=" warning col-md-4">'.$nomProduit.'</td>';
+                                                echo '<td class=" warning col-md-4">'.$quantite.'</td>';
+                                                echo '<td class=" warning col-md-4">
+                                                <div >
+                                                <form action="Ges_stocks.php">
+                                                  <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                      <button class="btn btn-warning">MaJ stock</button></a>
+                                                    </span>
+                                                    <input type="text" name="regul" class="form-control" placeholder="Ajouter ...">
+                                                    <input type="hidden" name="id" value="'.$row['id'].'"/>
+                                                    <input type="hidden" name="action" value="1"/>
+                                                    <input type="hidden" name="base" value="'.$row['stock'].'"/>
+                                                          </form>
+                                                  </div><!-- /input-group -->
+                                                </div><!-- /.col-lg-6 -->
+                                              </td>';
+                                                }
+                                              }
 
-                                            $db->where('id', $row['idBeneficiaire']);
-                                            $usersBenef = $db->get('Users');
+                                                else
+                                                {
+                                                echo '<td class="success  col-md-4">'.$nomProduit.'</td>';
+                                                echo '<td class="success  col-md-4">'.$quantite.'</td>';
+                                                echo '<td class="success  col-md-4">
+                                                <div >
+                                                <form action="Ges_stocks.php">
+                                                  <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                      <button class="btn btn-success">MaJ stock</button></a>
+                                                    </span>
+                                                    <input type="text" name="regul" class="form-control" placeholder="Ajouter ...">
+                                                    <input type="hidden" name="id" value="'.$row['id'].'"/>
+                                                    <input type="hidden" name="action" value="1"/>
+                                                    <input type="hidden" name="base" value="'.$row['stock'].'"/>
+                                                          </form>
+                                                  </div><!-- /input-group -->
+                                                </div><!-- /.col-lg-6 -->
+                                              </td>';
+                                                }
 
-                                            foreach($usersBenef as $us) {
-                                                $BeneficiaireNom = $us['nom'];
-                                                $BeneficiairePrenom = $us['prenom'];
-                                            }
-
-                                                echo "<tr>";
-                                                echo '<td>'.$utilisateurNom.' '.$utilisateurPrenom.'</td>';
-                                                echo '<td>'.$BeneficiaireNom.' '.$BeneficiairePrenom.'</td>';
-                                                echo '<td>'.$row['montant'].' € </td>';
-                                                echo '<td>'.$row['date'].'</td>';
                                                 echo "</tr>";
                                             }
 
@@ -191,10 +257,8 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
-            <?php
-                //echo '<center><span class=\"\">'.$pages->display_jump_menu().$pages->display_items_per_page().'</span></center>';
-            ?>
             <!-- /.container-fluid -->
 
         </div>
@@ -205,10 +269,6 @@
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
     <script type="text/javascript">
         $(document).ready(function(){
         $('.filterable .btn-filter').click(function(){
@@ -254,6 +314,13 @@
         });
 
     </script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="js/plugins/morris/raphael.min.js"></script>
+    <script src="js/plugins/morris/morris.min.js"></script>
+    <script src="js/plugins/morris/morris-data.js"></script>
 
 </body>
 

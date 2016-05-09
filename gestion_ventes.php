@@ -80,11 +80,12 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="dash.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="Ges_users.php"><i class="fa fa-fw fa-users"></i> Gestion des utilisateurs</a>
                     </li>
+
                     <li class="active">
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-bar-chart-o"></i> Gestion des ventes <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
@@ -106,6 +107,9 @@
                     <li>
                         <a href="transactions.php"><i class="fa fa-fw fa-table"></i> Transactions</a>
                     </li>
+                    <li>
+                        <a href="Ges_stocks.php"><i class="fa fa-fw fa-table"></i> Gestion des stocks </a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -123,7 +127,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                                <i class="fa fa-dashboard"></i>  <a href="dash.html">Dashboard</a>
                             </li>
                             <li class="active">
                                 <i class="fa fa-bar-chart-o"></i> Gestion des ventes

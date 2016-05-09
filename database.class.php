@@ -449,7 +449,6 @@ class MysqliDb
 
         // Did the user call the "where" method?
         if (!empty($this->_where)) {
-
             // if update data was passed, filter through and create the SQL query, accordingly.
             if ($hasTableData) {
                 $pos = strpos($this->_query, 'UPDATE');
@@ -467,7 +466,9 @@ class MysqliDb
 
             //Prepair the where portion of the query
             $this->_query .= ' WHERE ';
+
             foreach ($this->_where as $column => $value) {
+
                 $comparison = ' = ? ';
                 if( is_array( $value ) ) {
                     // if the value is an array, then this isn't a basic = comparison
@@ -487,6 +488,7 @@ class MysqliDb
                             $this->_whereTypeList .= $this->_determineType( $val[0] );
                             $this->_whereTypeList .= $this->_determineType( $val[1] );
                             break;
+
                         default:
                             // We are using a comparison operator with only one parameter after it
                             $comparison = ' '.$key.' ? ';
@@ -500,6 +502,7 @@ class MysqliDb
                 // Prepares the reset of the SQL query.
                 $this->_query .= ($column.$comparison.' AND ');
             }
+          
             $this->_query = rtrim($this->_query, ' AND ');
         }
 
@@ -512,6 +515,14 @@ class MysqliDb
             }
             $this->_query = rtrim($this->_query, ', ') . " ";
         }
+
+        //////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+        ////////////////////////////////////////////////////////////////////////
 
         // Did the user call the "orderBy" method?
         if (!empty ($this->_orderBy)) {
