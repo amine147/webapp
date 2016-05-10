@@ -2,6 +2,7 @@
     session_start();
     require('config.php');
 
+<<<<<<< HEAD
     if( isset($_GET['mail']) && isset($_GET['pswd']) ) {
       $db->where('email',$_GET['mail']);
       $db->where('password_hash',md5($_GET['pswd']));
@@ -16,6 +17,25 @@
           header("location:dash.php");
         }
     }
+=======
+    $db->where('email',$_GET['mail']);
+    $db->where('password_hash',md5($_GET['pswd']));
+    $db->where('userlvl',3);
+    $db->where('status',1);
+    $Users =$db->get('Users');
+     if($Users){
+      // print_r($Users[0]);
+       $LeUser = $Users[0];
+        $_SESSION['nom'] = strtoupper($LeUser['nom']);
+        $_SESSION['prenom'] = ucfirst($LeUser['prenom']);
+        $_SESSION['id'] = $LeUser['id'];
+        $_SESSION['connected'] = 1;
+
+      header("location:dash.php");
+      setcookie("Session_User",$_SESSION,time()+1800);
+
+      }
+>>>>>>> origin/YahyaAr-patch-1
 
 
 ?>
