@@ -1,8 +1,15 @@
 <?php
+session_start();
     require('config.php');
+    if($_SESSION['connected']==1){
+
     $db->orderBy("id","desc");
     $db->where('categorieId', $_GET['cat']);
     $produits = $db->get('Produits');
+  }
+  else{
+    header("location:index.php");
+  }
 
 ?>
 <!DOCTYPE html>
@@ -57,24 +64,19 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                        </li>
-                    </ul>
-                </li>
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $_SESSION['nom']." ".$_SESSION['prenom']; ?> <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                      <li>
+                          <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                      </li>
+
+                      <li class="divider"></li>
+                      <li>
+                          <a href="<?php /*session_destroy();*/ echo 'logout.php'?>"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                      </li>
+                  </ul>
+              </li>
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">

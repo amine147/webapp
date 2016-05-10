@@ -6,12 +6,18 @@
     $db->where('password_hash',md5($_GET['pswd']));
     $db->where('userlvl',3);
     $db->where('status',1);
-     if($db->get('Users')){
-        $Users =$db->get('Users');
-        $_SESSION['name'] = ucfirst($Users['prenom'])." ".strtoupper($Users['nom']);
-        $_SESSION['id'] = $Users['id'];
+    $Users =$db->get('Users');
+     if($Users){
+      // print_r($Users[0]);
+       $LeUser = $Users[0];
+        $_SESSION['nom'] = strtoupper($LeUser['nom']);
+        $_SESSION['prenom'] = ucfirst($LeUser['prenom']);
+        $_SESSION['id'] = $LeUser['id'];
+        $_SESSION['connected'] = 1;
 
-        header("location:dash.php");
+      header("location:dash.php");
+      setcookie("Session_User",$_SESSION,time()+1800);
+
       }
 
 
