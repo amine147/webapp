@@ -2,6 +2,7 @@
     session_start();
     require('config.php');
     $categories = $db->get('Categories');
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -142,11 +143,14 @@
                                     <div class="col-xs-9 text-right">
                                         <div class="huge">
                                             <?php
-                                                $link = mysqli_connect("localhost", "root", "", "cafetteApp");
+                                                /*
                                                 $result = mysqli_query($link,"SELECT count(*) FROM Transactions");
                                                 $row = mysqli_fetch_row($result);
                                                 $num = $row[0];
                                                 echo $num;
+                                                */
+                                                $count = $db->getValue ("Transactions", "count(*)");
+                                                echo "{$count}";
                                             ?>
                                         </div>
                                         <div>Transactions</div>
@@ -172,11 +176,8 @@
                                     <div class="col-xs-9 text-right">
                                         <div class="huge">
                                             <?php
-                                                $link = mysqli_connect("localhost", "root", "", "cafetteApp");
-                                                $result = mysqli_query($link,"SELECT count(*) FROM Users WHERE status=1");
-                                                $row = mysqli_fetch_row($result);
-                                                $num = $row[0];
-                                                echo $num;
+                                                $count = $db->getValue ("Users", "count(*)");
+                                                echo "{$count}";
                                             ?>
                                         </div>
                                         <div>Utilisateurs actifs</div>
@@ -202,11 +203,8 @@
                                     <div class="col-xs-9 text-right">
                                         <div class="huge">
                                             <?php
-                                                $link = mysqli_connect("localhost", "root", "", "cafetteApp");
-                                                $result = mysqli_query($link,"SELECT count(*) FROM Commandes");
-                                                $row = mysqli_fetch_row($result);
-                                                $num = $row[0];
-                                                echo $num;
+                                                $count = $db->getValue ("Commandes", "count(*)");
+                                                echo "{$count}";
                                             ?>
                                         </div>
                                         <div>Commandes</div>
@@ -232,11 +230,8 @@
                                     <div class="col-xs-9 text-right">
                                         <div class="huge">
                                             <?php
-                                                $link = mysqli_connect("localhost", "root", "", "cafetteApp");
-                                                $result = mysqli_query($link,"SELECT count(*) FROM Produits");
-                                                $row = mysqli_fetch_row($result);
-                                                $num = $row[0];
-                                                echo $num;
+                                                $count = $db->getValue ("Produits", "count(*)");
+                                                echo "{$count}";
                                             ?>
                                         </div>
                                         <div>Produits</div>
