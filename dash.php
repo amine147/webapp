@@ -1,7 +1,14 @@
 <?php
     session_start();
+    if($_SESSION['connected']==1){
+
     require('config.php');
+    echo($_SESSION);
     $categories = $db->get('Categories');
+    }
+    else{
+      header("location:index.php");
+    }
 
 ?>
 <!DOCTYPE html>
@@ -57,20 +64,15 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $_SESSION['name']; ?> <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $_SESSION['nom']." ".$_SESSION['prenom']; ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
+
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="<?php /*session_destroy();*/ echo 'logout.php'; ?>"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -131,124 +133,7 @@
                     </div>
                 </div>
                 <!-- /.row -->
-                
-                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">
-                                            <?php
-                                                /*
-                                                $result = mysqli_query($link,"SELECT count(*) FROM Transactions");
-                                                $row = mysqli_fetch_row($result);
-                                                $num = $row[0];
-                                                echo $num;
-                                                */
-                                                $count = $db->getValue ("Transactions", "count(*)");
-                                                echo "{$count}";
-                                            ?>
-                                        </div>
-                                        <div>Transactions</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="transactions.php">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Voir les détails</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-user fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">
-                                            <?php
-                                                $count = $db->getValue ("Users", "count(*)");
-                                                echo "{$count}";
-                                            ?>
-                                        </div>
-                                        <div>Utilisateurs actifs</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="Ges_users.php">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Voir les détails</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-shopping-cart fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">
-                                            <?php
-                                                $count = $db->getValue ("Commandes", "count(*)");
-                                                echo "{$count}";
-                                            ?>
-                                        </div>
-                                        <div>Commandes</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="commandes.php">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Voir les détails</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-coffee fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">
-                                            <?php
-                                                $count = $db->getValue ("Produits", "count(*)");
-                                                echo "{$count}";
-                                            ?>
-                                        </div>
-                                        <div>Produits</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="gestion_ventes.php?cat=1">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Voir les détails</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
+
 
             </div>
             <!-- /.container-fluid -->
