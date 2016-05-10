@@ -130,7 +130,130 @@
                     </div>
                 </div>
                 <!-- /.row -->
-
+                
+                 <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">
+                                            <?php
+                                                $link = mysqli_connect("localhost", "root", "", "cafetteApp");
+                                                $result = mysqli_query($link,"SELECT count(*) FROM Transactions");
+                                                $row = mysqli_fetch_row($result);
+                                                $num = $row[0];
+                                                echo $num;
+                                            ?>
+                                        </div>
+                                        <div>Transactions</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="transactions.php">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Voir les détails</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-user fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">
+                                            <?php
+                                                $link = mysqli_connect("localhost", "root", "", "cafetteApp");
+                                                $result = mysqli_query($link,"SELECT count(*) FROM Users WHERE status=1");
+                                                $row = mysqli_fetch_row($result);
+                                                $num = $row[0];
+                                                echo $num;
+                                            ?>
+                                        </div>
+                                        <div>Utilisateurs actifs</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="Ges_users.php">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Voir les détails</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-shopping-cart fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">
+                                            <?php
+                                                $link = mysqli_connect("localhost", "root", "", "cafetteApp");
+                                                $result = mysqli_query($link,"SELECT count(*) FROM Commandes");
+                                                $row = mysqli_fetch_row($result);
+                                                $num = $row[0];
+                                                echo $num;
+                                            ?>
+                                        </div>
+                                        <div>Commandes</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="commandes.php">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Voir les détails</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-coffee fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">
+                                            <?php
+                                                $link = mysqli_connect("localhost", "root", "", "cafetteApp");
+                                                $result = mysqli_query($link,"SELECT count(*) FROM Produits");
+                                                $row = mysqli_fetch_row($result);
+                                                $num = $row[0];
+                                                echo $num;
+                                            ?>
+                                        </div>
+                                        <div>Produits</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="gestion_ventes.php?cat=1">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Voir les détails</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
 
             </div>
             <!-- /.container-fluid -->

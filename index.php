@@ -2,17 +2,20 @@
     session_start();
     require('config.php');
 
-    $db->where('email',$_GET['mail']);
-    $db->where('password_hash',md5($_GET['pswd']));
-    $db->where('userlvl',3);
-    $db->where('status',1);
-     if($db->get('Users')){
-        $Users =$db->get('Users');
-        $_SESSION['name'] = ucfirst($Users['prenom'])." ".strtoupper($Users['nom']);
-        $_SESSION['id'] = $Users['id'];
+    if( isset($_GET['mail']) && isset($_GET['pswd']) ) {
+      $db->where('email',$_GET['mail']);
+      $db->where('password_hash',md5($_GET['pswd']));
+      $db->where('userlvl',3);
+      $db->where('status',1);
+       if($db->get('Users')){
+          echo 'OK';
+          $Users =$db->get('Users');
+          $_SESSION['name'] = ucfirst($Users['prenom'])." ".strtoupper($Users['nom']);
+          $_SESSION['id'] = $Users['id'];
 
-        header("location:dash.php");
-      }
+          header("location:dash.php");
+        }
+    }
 
 
 ?>
